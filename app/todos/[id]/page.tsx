@@ -1,13 +1,18 @@
 import { Todo } from '../../../typings';
+import { notFound } from 'next/navigation';
+
+export const dynamicParams = true;
 
 type PageProps = {
   params: {
-    id: number;
+    id: string;
   };
 };
 
-const fetchTodo = async (id: number) => {
-  const res = await fetch(`https://jsonplaceholder.typicode.com/todos/${id}`);
+const fetchTodo = async (id: string) => {
+  const res = await fetch(`https://jsonplaceholder.typicode.com/todos/${id}`, {
+    next: { revalidate: 60 },
+  });
   const todo: Todo = await res.json();
 
   return todo;
@@ -15,6 +20,8 @@ const fetchTodo = async (id: number) => {
 
 const TodoPage = async ({ params: { id } }: PageProps) => {
   const todo = await fetchTodo(id);
+
+  if (!todo.id) return notFound();
 
   return (
     <div className='p-10 bg-yellow-200 border-2 m-2 shadow-lg'>
@@ -31,3 +38,15 @@ const TodoPage = async ({ params: { id } }: PageProps) => {
 };
 
 export default TodoPage;
+
+export async function generateStaticParams() {
+  const res = await fetch('https://jsonplaceholder.typicode.com/todos/');
+  const todos: Todo[] = await res.json();
+
+  // ONLY FOR TESTING
+  const trimmedTodos = todos.splice(0, 10);
+
+  return trimmedTodos.map((todo) => ({
+    id: todo.id.toString(),
+  }));
+}
