@@ -1,7 +1,7 @@
 export default function Head() {
   return (
     <>
-      <title>next13-todo-app</title>
+      <title>Search Page</title>
       <meta content='width=device-width, initial-scale=1' name='viewport' />
     </>
   );
