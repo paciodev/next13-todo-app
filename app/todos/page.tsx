@@ -1,12 +1,9 @@
-import TodosList from './TodosList';
-
-const page = () => {
+const Todos = () => {
   return (
     <div>
-      {/* @ts-ignore */}
-      <TodosList />
+      <h1>This is where the todos will be listed...</h1>
     </div>
   );
 };
 
-export default page;
+export default Todos;
