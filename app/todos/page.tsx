@@ -1,5 +1,12 @@
+import TodosList from './TodosList';
+
 const page = () => {
-  return <div>Todos</div>;
+  return (
+    <div>
+      {/* @ts-ignore */}
+      <TodosList />
+    </div>
+  );
 };
 
 export default page;
